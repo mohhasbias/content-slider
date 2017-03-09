@@ -5,18 +5,15 @@ var html = require('yo-yo');
 var css = require('sheetify');
 var diffhtml = require('diffhtml');
 var redux = require('redux');
+var $ = require('jquery');
+require('bootstrap');
 
 /* ===========================
  *         definition
  * ===========================*/
-const FETCH_PLAYLIST = 'FETCH_PLAYLIST';
 const LOAD_PLAYLIST = 'LOAD_PLAYLIST';
 function playlist(state = [], action) {
-  // return state;
-
   switch(action.type) {
-    case FETCH_PLAYLIST:
-      return 'FETCH_PLAYLIST';
     case LOAD_PLAYLIST:
       return action.payload.playlist;
     default:
@@ -39,16 +36,25 @@ function selectPlaylist() {
 
 function carousel(playlist) {
   return html`
-    <ul class="list-group">
-      ${
-        playlist.map( (item, index) => html`
-          <li class="list-item">
-            <img src="${item.url}" alt="image-${index}" height="300">
-          </li>
-        `)
-      }
-    </ul>
+    <div class="carousel slide">
+      <div class="carousel-inner">
+        ${
+          playlist.map( (item, index) => html`
+            <div class="item ${index === 0? 'active' : ''}">
+              <img src="${item.url}" alt="image-${index}" style="margin: auto;">
+            </div>
+          `)
+        }
+      </div>
+    </div>
   `;
+}
+
+function homePage() {
+  diffhtml.innerHTML(document.body, carousel(selectPlaylist()));
+  $('.carousel').carousel({
+    pause: false
+  });
 }
 
 /* ===========================
@@ -63,7 +69,7 @@ var appReducers = redux.combineReducers({
 var store = redux.createStore(appReducers);
 
 store.subscribe( () => {
-  diffhtml.innerHTML(document.body, carousel(selectPlaylist()));
+  homePage();
 });
 
 fetch('data/playlist.json')
