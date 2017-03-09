@@ -1,0 +1,28 @@
+{
+  "name": "displayer-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "budo app/app.js:dist/bundle.js --open --live"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "budo": "^9.4.7"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "choo": "^4.1.0",
+    "diffhtml": "^0.9.2",
+    "redux": "^3.6.0",
+    "sheetify": "^6.0.1",
+    "yo-yo": "^1.4.0"
+  },
+  "browserify": {
+    "transform": [
+      "sheetify/transform"
+    ]
+  }
+}
